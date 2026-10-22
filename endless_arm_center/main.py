@@ -27,7 +27,7 @@ def main():
         return
 
     QtWidgets.QMessageBox.information(
-        window,
+        None,
         #: Window title.
         window.tr("Patching ROM"),
         window.tr("Your ROM will now be patched. Please be patient, as this could take several moments."),
@@ -36,7 +36,7 @@ def main():
     mod_files(path, new_path)
 
     QtWidgets.QMessageBox.information(
-        window,
+        None,
         #: Window title.
         window.tr("Complete"),
         window.tr("ROM has been patched successfully! The program will now exit."),
@@ -95,14 +95,14 @@ def mod_files(path, new_path):
 
 def import_rom(self):
     QtWidgets.QMessageBox.information(
-        self,
+        None,
         #: Window title.
         self.tr("Choose a ROM"),
         self.tr("Please choose a North American Bowser's Inside Story ROM to open."),
     )
     while True:
         path, _ = QtWidgets.QFileDialog.getOpenFileName(
-            parent = self,
+            parent = None,
             #: Window title.
             caption = self.tr("Open ROM"),
             filter = NDS_ROM_FILENAME_FILTER,
@@ -115,7 +115,7 @@ def import_rom(self):
             rom = ndspy.rom.NintendoDSRom.fromFile(path)
         except struct.error:
             QtWidgets.QMessageBox.warning(
-                self,
+                None,
                 #: Window title.
                 self.tr("Invalid File"),
                 self.tr("The chosen file is not a Nintendo DS ROM file."),
@@ -124,7 +124,7 @@ def import_rom(self):
 
         if rom.name != b"MARIO&LUIGI3":
             QtWidgets.QMessageBox.warning(
-                self,
+                None,
                 #: Window title.
                 self.tr("Invalid ROM"),
                 self.tr("The chosen ROM is not a valid Bowser's Inside Story ROM."),
@@ -136,7 +136,7 @@ def import_rom(self):
             return path
         else:
             QtWidgets.QMessageBox.warning(
-                self,
+                None,
                 #: Window title.
                 self.tr("Invalid ROM"),
                 self.tr("The chosen ROM is not from a valid region.\n\nOnly a North American or European Bowser's Inside Story ROM will work."),
@@ -144,14 +144,14 @@ def import_rom(self):
 
 def export_rom(self, path):
     QtWidgets.QMessageBox.information(
-        self,
+        None,
         #: Window title.
         self.tr("Choose a New ROM"),
         self.tr("Please choose a file to save the modded ROM to."),
     )
 
     path, _ = QtWidgets.QFileDialog.getSaveFileName(
-        self,
+        None,
         #: Window title.
         self.tr("Export File"),
         path,
