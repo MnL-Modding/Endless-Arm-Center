@@ -1,5 +1,9 @@
 from __future__ import annotations
 
+# Workaround for dynamic scope in Nuitka
+if '__compiled__' in globals():
+    _dynamicscope_test_variable = False
+
 import codecs
 import types
 import collections
