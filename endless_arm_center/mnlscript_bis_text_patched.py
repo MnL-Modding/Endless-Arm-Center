@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import codecs
 import types
 import collections
@@ -50,9 +52,6 @@ def keepliteral_errors(error: UnicodeError) -> tuple[str | bytes, int]:
 
 
 codecs.register_error(CODEC_ERROR_HANDLER_KEEP_LITERAL, keepliteral_errors)
-
-
-TT = typing.TypeVar("TT", bytes, None) # had to introduce a whole-ass patch file bc this was giving me shit lol
 
 
 @typing.overload

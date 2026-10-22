@@ -1,0 +1,4 @@
+- module-name: "endless_arm_center"
+  data-files:
+    - dirs:
+      - "files"
