@@ -55,14 +55,14 @@ structured-classes = ">=3.1.0,<4.0.0"
 
 [[package]]
 name = "mnlscript"
-version = "0.2.5"
+version = "0.2.6"
 description = "Compiler and decompiler for the Mario & Luigi scripting language from and to Python."
 optional = false
 python-versions = "<4.0,>=3.12"
 groups = ["main"]
 files = [
-    {file = "mnlscript-0.2.5-py3-none-any.whl", hash = "sha256:5a83e29c00e20f90de9289a0e30e677511d104233bd0dbd7a458913101d172f1"},
-    {file = "mnlscript-0.2.5.tar.gz", hash = "sha256:461c369a65b7f30a9238acecc495add44ce2f257cc1cf3e8e977ade85ea95a76"},
+    {file = "mnlscript-0.2.6-py3-none-any.whl", hash = "sha256:75bcfda149c1555f88fbcbfd014ed8d695d0d48d274bc199d6db6b0384c9aef5"},
+    {file = "mnlscript-0.2.6.tar.gz", hash = "sha256:be5c8b8fee56a0b2f8938f0bb03504fb25a53fb2a49d3d0257c5ba4cfb2980ea"},
 ]
 
 [package.dependencies]

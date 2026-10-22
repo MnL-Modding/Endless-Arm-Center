@@ -5,10 +5,6 @@ import sys
 import os
 from io import BytesIO
 
-import endless_arm_center.mnlscript_bis_text_patched
-
-sys.modules['mnlscript.bis.text'] = endless_arm_center.mnlscript_bis_text_patched
-
 from mnlscript import label, return_, CodeCommandWithOffsets, update_commands_with_offsets, SubroutineExt
 from mnlscript.bis import Variables, Actors, StackTopModification, StackPopCondition
 from mnlscript.bis.commands import *
