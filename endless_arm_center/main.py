@@ -143,7 +143,7 @@ def import_rom(self):
                 None,
                 #: Window title.
                 self.tr("Invalid ROM"),
-                self.tr("The chosen ROM is not from a valid region.\n\nOnly a North American or European Bowser's Inside Story ROM will work."),
+                self.tr("The chosen ROM is not from a valid region.\n\nOnly a North American Bowser's Inside Story ROM will work."),
             )
 
 def export_rom(self, path):
