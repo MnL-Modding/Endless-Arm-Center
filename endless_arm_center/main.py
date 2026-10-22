@@ -1,3 +1,7 @@
+# Workaround for dynamic scope in Nuitka
+if '__compiled__' in globals():
+    _dynamicscope_test_variable = False
+
 import os
 import struct
 import sys
