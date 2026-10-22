@@ -559,14 +559,14 @@ def arm_center_endless(fevent_manager, font_file, coins_string):
 
         Variables[0xEB14] = 0x1
         Variables[0xEB15] = 0x1
-        branch_if(Variables[0xC000], '==', 0x0, 'arm_coin_celebrate_pass')
+        branch_if(Variables[0x900A], '<', arm_center_score_level_threshold, 'arm_coin_celebrate_pass')
         emit_command(0x01CD, [0x02000089, 0x0080, 0x0060, 0x0000, 0x0000, 0x0001, 0x00])
         emit_command(0x01CD, [0x400000BC, 0x00C0, 0x0060, 90, 0x0000, 0x0001, 0x00])
         branch('arm_coin_celebrate_end', type=0x00)
 
         label('arm_coin_celebrate_pass', manager = fevent_manager)
-        emit_command(0x01CE, [0x4000006F, 0x00, 0, 0x0000, 0x0001, 0x00])
-        emit_command(0x01CE, [0x4000003E, 0x01, 0, 0x0000, 0x0001, 0x00])
+        emit_command(0x01CD, [0x4000003E, 0x00C0, 0x0060, 0, 0x0000, 0x0001, 0x00])
+        # emit_command(0x01CD, [0x4000006F, 0x00C0, 0x0060, 0, 0x0000, 0x0001, 0x00])
         branch('arm_coin_celebrate_end', type=0x00)
 
         label('arm_coin_celebrate_end', manager = fevent_manager)
@@ -772,6 +772,7 @@ def arm_center_endless(fevent_manager, font_file, coins_string):
         Variables[0xA00D] += Variables[0x1000]
         Variables[0x9017] += Variables[0xA00D]
         branch_if(Variables[0x9017], '>=', 0x64, 'endless_arm_ball_move_0', invert=True)
+        emit_command(0x01CE, [0x000201EA, 0x6, 0x0000, 0x0000, 0x0001, 0x00])
 
         label('endless_arm_ball_move_5', manager = fevent_manager)
         get_actor_attribute(Actors.BOWSER, ActorAttribute.Z_POSITION, res=Variables[0x1000])
