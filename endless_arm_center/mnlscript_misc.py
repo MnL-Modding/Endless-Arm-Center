@@ -101,6 +101,7 @@ def arm_center_endless(fevent_manager, font_file, coins_string):
     cast(SubroutineExt, script.subroutines[0x1C]).name = 'sub_0x1c'
 
     arm_center_score_level_threshold = 15
+    arm_center_speed_up_cap = 15
 
     script.subroutines[2].commands[0].arguments[4] = 0
     script.header.actors.append((0x00000000, 0x00000000, 0xFFFF0001, 0xFFFFFFFF, 0x01980000))
@@ -728,8 +729,8 @@ def arm_center_endless(fevent_manager, font_file, coins_string):
         get_actor_attribute(-0x01, ActorAttribute.Z_POSITION, res=Variables[0x1000])
         Variables[0x1000] = Variables[0x9002] - Variables[0x1000]
         Variables[0x1001] = Variables[0x900A] // arm_center_score_level_threshold
-        branch_if(Variables[0x1001], '>', 15, 'arm_endless_random_pattern_all_cap_speed', invert=True)
-        Variables[0x1001] = 15
+        branch_if(Variables[0x1001], '>', arm_center_speed_up_cap, 'arm_endless_random_pattern_all_cap_speed', invert=True)
+        Variables[0x1001] = arm_center_speed_up_cap
         label('arm_endless_random_pattern_all_cap_speed', manager = fevent_manager)
         Variables[0x1002] = Variables[0x9003] * 30
         Variables[0x1001] = Variables[0x9003] * Variables[0x1001]
@@ -762,14 +763,13 @@ def arm_center_endless(fevent_manager, font_file, coins_string):
         Variables[0xA00D] = 0x28
 
         label('endless_arm_ball_move_2', manager = fevent_manager)
-        Variables[0x1000] = Variables[0x900A] // arm_center_score_level_threshold
-        branch_if(Variables[0x1000], '>', 15, 'arm_endless_random_pattern_cap_likelihood', invert=True)
-        Variables[0x1000] = 15
+        Variables[0x1000] = Variables[0x900A] * 3
+        Variables[0x1000] = Variables[0x1000] // arm_center_score_level_threshold # random patterns become more likely to appear every 5 hits (didn't work before, patched in standalone)
+        branch_if(Variables[0x1000], '>', arm_center_speed_up_cap * 3, 'arm_endless_random_pattern_cap_likelihood', invert=True)
+        Variables[0x1000] = arm_center_speed_up_cap * 3
 
         label('arm_endless_random_pattern_cap_likelihood', manager = fevent_manager)
-        Variables[0x1000] = Variables[0x1000] * 3
-        Variables[0xA00D] += Variables[0x1000] # random patterns become more likely to appear every 5 hits
-
+        Variables[0xA00D] += Variables[0x1000]
         Variables[0x9017] = Variables[0x9017] + Variables[0xA00D]
         branch_if(Variables[0x9017], '>=', 0x64, 'endless_arm_ball_move_0', invert=True)
 
@@ -791,8 +791,8 @@ def arm_center_endless(fevent_manager, font_file, coins_string):
         branch_if(0x0, '!=', Variables[0x1000], 'endless_arm_ball_move_9')
         fx_multiply(0x168000, 0x1000, Variables[0x1000])
         Variables[0x1001] = Variables[0x900A] // arm_center_score_level_threshold
-        branch_if(Variables[0x1001], '>', 15, 'arm_endless_random_pattern_0_cap_speed', invert=True)
-        Variables[0x1001] = 15
+        branch_if(Variables[0x1001], '>', arm_center_speed_up_cap, 'arm_endless_random_pattern_0_cap_speed', invert=True)
+        Variables[0x1001] = arm_center_speed_up_cap
         label('arm_endless_random_pattern_0_cap_speed', manager = fevent_manager)
         Variables[0x1001] = 0x20 - Variables[0x1001]
         
@@ -805,8 +805,8 @@ def arm_center_endless(fevent_manager, font_file, coins_string):
         branch_if(0x1, '!=', Variables[0x1000], 'endless_arm_ball_move_10')
         fx_multiply(0x168000, 0x1000, Variables[0x1000])
         Variables[0x1001] = Variables[0x900A] // arm_center_score_level_threshold
-        branch_if(Variables[0x1001], '>', 15, 'arm_endless_random_pattern_1_cap_speed', invert=True)
-        Variables[0x1001] = 15
+        branch_if(Variables[0x1001], '>', arm_center_speed_up_cap, 'arm_endless_random_pattern_1_cap_speed', invert=True)
+        Variables[0x1001] = arm_center_speed_up_cap
         label('arm_endless_random_pattern_1_cap_speed', manager = fevent_manager)
         Variables[0x1001] = Variables[0x1001] * 2
         Variables[0x1001] = 0x30 - Variables[0x1001]
@@ -818,8 +818,8 @@ def arm_center_endless(fevent_manager, font_file, coins_string):
         label('endless_arm_ball_move_10', manager = fevent_manager)
         branch_if(0x2, '!=', Variables[0x1000], 'endless_arm_ball_move_11')
         Variables[0x1001] = Variables[0x900A] // arm_center_score_level_threshold
-        branch_if(Variables[0x1001], '>', 15, 'arm_endless_random_pattern_2_cap_speed', invert=True)
-        Variables[0x1001] = 15
+        branch_if(Variables[0x1001], '>', arm_center_speed_up_cap, 'arm_endless_random_pattern_2_cap_speed', invert=True)
+        Variables[0x1001] = arm_center_speed_up_cap
         label('arm_endless_random_pattern_2_cap_speed', manager = fevent_manager)
         Variables[0x1001] = 0x1E - Variables[0x1001]
         emit_command(0x00B8, [-0x01, 0x0D, 0x0000, 0x0000, -0x0018, 0x000B4000, Variables[0x1001], -0x01, 0x0080, 0x00, 0x00, 0x01, 0x01])
@@ -830,8 +830,8 @@ def arm_center_endless(fevent_manager, font_file, coins_string):
         label('endless_arm_ball_move_11', manager = fevent_manager)
         branch_if(0x3, '!=', Variables[0x1000], 'endless_arm_ball_move_12')
         Variables[0x1001] = Variables[0x900A] // arm_center_score_level_threshold
-        branch_if(Variables[0x1001], '>', 15, 'arm_endless_random_pattern_3_cap_speed', invert=True)
-        Variables[0x1001] = 15
+        branch_if(Variables[0x1001], '>', arm_center_speed_up_cap, 'arm_endless_random_pattern_3_cap_speed', invert=True)
+        Variables[0x1001] = arm_center_speed_up_cap
         label('arm_endless_random_pattern_3_cap_speed', manager = fevent_manager)
         Variables[0x1001] = Variables[0x1001] // 3
         Variables[0x1001] = 0xC - Variables[0x1001]
@@ -843,8 +843,8 @@ def arm_center_endless(fevent_manager, font_file, coins_string):
         label('endless_arm_ball_move_12', manager = fevent_manager)
         branch_if(0x4, '!=', Variables[0x1000], 'endless_arm_ball_move_13')
         Variables[0x1001] = Variables[0x900A] // arm_center_score_level_threshold
-        branch_if(Variables[0x1001], '>', 15, 'arm_endless_random_pattern_4_cap_speed', invert=True)
-        Variables[0x1001] = 15
+        branch_if(Variables[0x1001], '>', arm_center_speed_up_cap, 'arm_endless_random_pattern_4_cap_speed', invert=True)
+        Variables[0x1001] = arm_center_speed_up_cap
         label('arm_endless_random_pattern_4_cap_speed', manager = fevent_manager)
         Variables[0x1001] = Variables[0x1001] // 3
         Variables[0x1001] = Variables[0x1001] * 2
@@ -859,8 +859,8 @@ def arm_center_endless(fevent_manager, font_file, coins_string):
         label('endless_arm_ball_move_13', manager = fevent_manager)
         branch_if(0x5, '!=', Variables[0x1000], 'endless_arm_ball_move_14')
         Variables[0x1001] = Variables[0x900A] // arm_center_score_level_threshold
-        branch_if(Variables[0x1001], '>', 15, 'arm_endless_random_pattern_5_cap_speed', invert=True)
-        Variables[0x1001] = 15
+        branch_if(Variables[0x1001], '>', arm_center_speed_up_cap, 'arm_endless_random_pattern_5_cap_speed', invert=True)
+        Variables[0x1001] = arm_center_speed_up_cap
         label('arm_endless_random_pattern_5_cap_speed', manager = fevent_manager)
         Variables[0x1001] = Variables[0x1001] // 3
         Variables[0x1001] = Variables[0x1001] * 2
@@ -876,8 +876,8 @@ def arm_center_endless(fevent_manager, font_file, coins_string):
         branch_if(0x6, '!=', Variables[0x1000], 'endless_arm_ball_move_8')
         fx_multiply(0x168000, 0x1000, Variables[0x1000])
         Variables[0x1001] = Variables[0x900A] // arm_center_score_level_threshold
-        branch_if(Variables[0x1001], '>', 15, 'arm_endless_random_pattern_6_cap_speed', invert=True)
-        Variables[0x1001] = 15
+        branch_if(Variables[0x1001], '>', arm_center_speed_up_cap, 'arm_endless_random_pattern_6_cap_speed', invert=True)
+        Variables[0x1001] = arm_center_speed_up_cap
         label('arm_endless_random_pattern_6_cap_speed', manager = fevent_manager)
         Variables[0x1001] = 0x18 - Variables[0x1001]
         emit_command(0x00B8, [-0x01, 0x0D, 0x0000, 0x0000, -0x0010, Variables[0x1000], Variables[0x1001], 0x01, 0x0100, 0x00, 0x00, 0x01, 0x01])
