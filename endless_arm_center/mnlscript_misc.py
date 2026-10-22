@@ -101,7 +101,9 @@ def arm_center_endless(fevent_manager, font_file, coins_string):
     cast(SubroutineExt, script.subroutines[0x1C]).name = 'sub_0x1c'
 
     arm_center_score_level_threshold = 15
-    arm_center_speed_up_cap = 15
+    arm_center_first_bulk_threshold = 4
+    arm_center_second_bulk_threshold = 8
+    arm_center_speed_up_cap = 16
 
     script.subroutines[2].commands[0].arguments[4] = 0
     script.header.actors.append((0x00000000, 0x00000000, 0xFFFF0001, 0xFFFFFFFF, 0x01980000))
@@ -634,7 +636,7 @@ def arm_center_endless(fevent_manager, font_file, coins_string):
         Variables[0xC000] = Variables[0x900A]
         emit_command(0x01BB, [0x0098, 0x0096, 0x00, 0x05, 0x03, 0x00, -0x01, -0x01, -0x0001, 0x00, 0x01, 0x00000000, 0x0C, 0x10, 0x00, 0x00, 0x0000, -0x01], Variables[0x1000])
         
-        branch_if(Variables[0x900A], '>=', arm_center_score_level_threshold * 6, 'arm_score_upgrade_next', invert=True)
+        branch_if(Variables[0x900A], '>=', arm_center_score_level_threshold * arm_center_second_bulk_threshold, 'arm_score_upgrade_next', invert=True)
         branch_if(Variables[0x6055], '==', 2, 'arm_score_display_abort')
         Variables[0x6055] = 2
         call('sub_0x15')
@@ -648,7 +650,7 @@ def arm_center_endless(fevent_manager, font_file, coins_string):
         return_()
 
         label('arm_score_upgrade_next', manager = fevent_manager)
-        branch_if(Variables[0x900A], '>=', arm_center_score_level_threshold * 3, 'arm_score_display_abort', invert=True)
+        branch_if(Variables[0x900A], '>=', arm_center_score_level_threshold * arm_center_first_bulk_threshold, 'arm_score_display_abort', invert=True)
         branch_if(Variables[0x6055], '==', 1, 'arm_score_display_abort')
         Variables[0x6055] = 1
         call('sub_0x14')
