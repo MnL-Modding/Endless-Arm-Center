@@ -95,8 +95,6 @@ def arm_center_endless(fevent_manager, font_file, coins_string):
     cast(SubroutineExt, script.subroutines[0x09]).name = 'sub_0x9'
     cast(SubroutineExt, script.subroutines[0x0C]).name = 'sub_0xc'
     cast(SubroutineExt, script.subroutines[0x0D]).name = 'sub_0xd'
-    cast(SubroutineExt, script.subroutines[0x14]).name = 'sub_0x14'
-    cast(SubroutineExt, script.subroutines[0x15]).name = 'sub_0x15'
     cast(SubroutineExt, script.subroutines[0x1A]).name = 'sub_0x1a'
     cast(SubroutineExt, script.subroutines[0x1C]).name = 'sub_0x1c'
 
@@ -546,15 +544,15 @@ def arm_center_endless(fevent_manager, font_file, coins_string):
         wait(20)
         Variables[0xE97F] = 0
         Variables[0x500D] = 0
-        
+
         branch_if(Variables[0x6055], '==', 0x2, 'arm_coin_10_pass', invert=True)
         Variables[0xC000] = Variables[0x900A] * 10
         label('arm_coin_10_pass', manager = fevent_manager)
-        
+
         branch_if(Variables[0x6055], '==', 0x1, 'arm_coin_5_pass', invert=True)
         Variables[0xC000] = Variables[0x900A] * 5
         label('arm_coin_5_pass', manager = fevent_manager)
-        
+
         branch_if(Variables[0x6055], '==', 0x0, 'arm_coin_3_pass', invert=True)
         Variables[0xC000] = Variables[0x900A] * 3
         label('arm_coin_3_pass', manager = fevent_manager)
@@ -563,12 +561,12 @@ def arm_center_endless(fevent_manager, font_file, coins_string):
         Variables[0xEB15] = 0x1
         branch_if(Variables[0x900A], '<', arm_center_score_level_threshold, 'arm_coin_celebrate_pass')
         emit_command(0x01CD, [0x02000089, 0x0080, 0x0060, 0x0000, 0x0000, 0x0001, 0x00])
-        emit_command(0x01CD, [0x400000BC, 0x00C0, 0x0060, 90, 0x0000, 0x0001, 0x00])
+        emit_command(0x01CE, [0x40000000 + 188, 0x01, 90, 0x0000, 0x0001, 0x00])
         branch('arm_coin_celebrate_end', type=0x00)
 
         label('arm_coin_celebrate_pass', manager = fevent_manager)
-        emit_command(0x01CD, [0x4000003E, 0x00C0, 0x0060, 0, 0x0000, 0x0001, 0x00])
-        # emit_command(0x01CD, [0x4000006F, 0x00C0, 0x0060, 0, 0x0000, 0x0001, 0x00])
+        emit_command(0x01CE, [0x40000000 +  62, 0x01, 0, 0x0000, 0x0001, 0x00])
+        emit_command(0x01CE, [0x40000000 + 111, 0x00, 0, 0x0000, 0x0001, 0x00])
         branch('arm_coin_celebrate_end', type=0x00)
 
         label('arm_coin_celebrate_end', manager = fevent_manager)
@@ -639,7 +637,18 @@ def arm_center_endless(fevent_manager, font_file, coins_string):
         branch_if(Variables[0x900A], '>=', arm_center_score_level_threshold * arm_center_second_bulk_threshold, 'arm_score_upgrade_next', invert=True)
         branch_if(Variables[0x6055], '==', 2, 'arm_score_display_abort')
         Variables[0x6055] = 2
-        call('sub_0x15')
+
+        # sub_0x15 replacement
+        emit_command(0x013F, [0x0000000F, 0x0001, 0x0400, 0x03, 0x08, 0x00])
+        wait(1)
+        emit_command(0x0129, [0x02])
+        emit_command(0x01CD, [0x0002008D, 0x0040, 0x0060, 0x0000, 0x0000, 0x0001, 0x00])
+        emit_command(0x012A, [0x00])
+        emit_command(0x012A, [0x06])
+        emit_command(0x012C, [0x05])
+        emit_command(0x0145, [0x05, 0x00, 0x0100, 0x00])
+        emit_command(0x0145, [0x02, 0x02, 0x0100, 0x00])
+
         Variables[0x9009] += 1
         emit_command(0x01CE, [0x0002002E, 0x06, 0x0000, 0x0000, 0x0001, 0x00])
         call('arm_center_lives_display')
@@ -653,7 +662,17 @@ def arm_center_endless(fevent_manager, font_file, coins_string):
         branch_if(Variables[0x900A], '>=', arm_center_score_level_threshold * arm_center_first_bulk_threshold, 'arm_score_display_abort', invert=True)
         branch_if(Variables[0x6055], '==', 1, 'arm_score_display_abort')
         Variables[0x6055] = 1
-        call('sub_0x14')
+
+        # sub_0x14 replacement
+        emit_command(0x013F, [0x0000000F, 0x0001, 0x0400, 0x03, 0x04, 0x00])
+        wait(1)
+        emit_command(0x0129, [0x01])
+        emit_command(0x01CD, [0x0002008D, 0x0040, 0x0060, 0x0000, 0x0000, 0x0001, 0x00])
+        emit_command(0x012A, [0x04])
+        emit_command(0x012C, [0x03])
+        emit_command(0x0145, [0x05, 0x00, 0x0100, 0x00])
+        emit_command(0x0145, [0x02, 0x01, 0x0100, 0x00])
+
         Variables[0x9009] += 1
         emit_command(0x01CE, [0x0002002E, 0x06, 0x0000, 0x0000, 0x0001, 0x00])
         call('arm_center_lives_display')
