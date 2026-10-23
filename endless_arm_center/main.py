@@ -93,6 +93,7 @@ def mod_files(path, new_path):
     overlay_3.data = overlay_3_temp.getvalue()
     rom.files[overlays[3].fileID] = overlay_3.save(compress = True)
 
+    rom.arm9OverlayTable = ndspy.code.saveOverlayTable(overlays)
     rom.saveToFile(new_path)
 
 def import_rom(self):
