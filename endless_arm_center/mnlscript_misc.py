@@ -95,6 +95,7 @@ def arm_center_endless(fevent_manager, font_file, coins_string):
     cast(SubroutineExt, script.subroutines[0x09]).name = 'sub_0x9'
     cast(SubroutineExt, script.subroutines[0x0C]).name = 'sub_0xc'
     cast(SubroutineExt, script.subroutines[0x0D]).name = 'sub_0xd'
+    cast(SubroutineExt, script.subroutines[0x16]).name = 'sub_0x16'
     cast(SubroutineExt, script.subroutines[0x1A]).name = 'sub_0x1a'
     cast(SubroutineExt, script.subroutines[0x1C]).name = 'sub_0x1c'
 
@@ -560,6 +561,11 @@ def arm_center_endless(fevent_manager, font_file, coins_string):
         Variables[0xEB14] = 0x1
         Variables[0xEB15] = 0x1
         branch_if(Variables[0x900A], '<', arm_center_score_level_threshold, 'arm_coin_celebrate_pass')
+        branch_if(Variables[0x6055], '==', 0x2, 'arm_end_reward_skip', invert=True)
+
+        call('arm_end_reward')
+
+        label('arm_end_reward_skip', manager = fevent_manager)
         emit_command(0x01CD, [0x02000089, 0x0080, 0x0060, 0x0000, 0x0000, 0x0001, 0x00])
         emit_command(0x01CE, [0x40000000 + 188, 0x01, 90, 0x0000, 0x0001, 0x00])
         branch('arm_coin_celebrate_end', type=0x00)
@@ -620,6 +626,15 @@ def arm_center_endless(fevent_manager, font_file, coins_string):
         emit_command(0x01D6, [0x00, 0x00, 0x01])
         emit_command(0x01D6, [0x01, 0x00, 0x00])
         emit_command(0x011E, [0x001B, 0x0000, 0x0000, 0x0000, 0x00, 0x00, 0x0003, -0x00000003, 0x01])
+        return_()
+
+        label('arm_end_reward', manager = fevent_manager)
+        emit_command(0x01CD, [0x00020080, 0x0080, 0x0060, 0x0000, 0x0000, 0x0001, 0x00])
+        emit_command(0x012C, [0x06])
+        emit_command(0x0133, [0x00, 0x0000, 0x0000, 0x0400, 0x0000, 0x0400, 0x0400, 0x01, 0x01])
+        emit_command(0x0178, [Variables[0x9016]])
+        wait(20)
+        call('sub_0x16')
 
         label('arm_ded_end', manager = fevent_manager)
         
