@@ -335,5 +335,5 @@ telegram = ["envwrap", "requests"]
 
 [metadata]
 lock-version = "2.1"
-python-versions = ">=3.12,<3.14"
-content-hash = "0ec88b74ab83b2481647ac01e49656a052cabfe84a2affdffdbc162914a7d2f3"
+python-versions = ">=3.12,<3.16"
+content-hash = "4d1fd057c681dd83e52a30bbc4c59e183d49315bd223e3a62a58f0c51a4d4db8"

@@ -86,13 +86,11 @@ def mod_files(path, new_path):
     # inserting files
     FEvent_temp = BytesIO()
     fevent_manager.save_fevent(FEvent_temp)
-    FEvent_temp.seek(0)
-    rom.setFileByName('FEvent/FEvent.dat', FEvent_temp.read())
+    rom.setFileByName('FEvent/FEvent.dat', FEvent_temp.getvalue())
 
     overlay_3_temp = BytesIO(overlay_3.data)
     fevent_manager.save_overlay3(overlay_3_temp)
-    overlay_3_temp.seek(0)
-    overlay_3.data = overlay_3_temp.read()
+    overlay_3.data = overlay_3_temp.getvalue()
     rom.files[overlays[3].fileID] = overlay_3.save(compress = True)
 
     rom.saveToFile(new_path)
