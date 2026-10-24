@@ -775,15 +775,17 @@ def arm_center_endless(fevent_manager, font_file, coins_string, no_music = False
         # fuck with speed variable depending on the bulk level
         # level 3 bulk: randomly inverts speed, becoming more common as the game goes on
         branch_if(Variables[0x6055], '==', 0x2, 'arm_endless_random_pattern_difficulty_2', invert=True)
-        Variables[0x1002] = Variables[0x900C] // 2
-        Variables[0x1003] = Variables[0x900C] - Variables[0x1002]
-        random_below(Variables[0x1003], Variables[0x900C])
-        Variables[0x900C] += Variables[0x1002]
-        Variables[0x900C] += 1
+        random_below(3, Variables[0x1002])
+        Variables[0x900C] -= Variables[0x1002]
 
         random_below(arm_center_speed_up_cap * 3, Variables[0x1002])
-        branch_if(Variables[0x1002], '<', arm_center_speed_up_cap, 'arm_endless_random_pattern_difficulty_2', invert=True)
-        Variables[0x900C] //= -2
+        Variables[0x1003] = Variables[0x900A] // arm_center_score_level_threshold
+        branch_if(Variables[0x1003], '>', arm_center_speed_up_cap, 'arm_endless_random_pattern_all_cap_speed_2', invert=True)
+        Variables[0x1003] = arm_center_speed_up_cap
+
+        label('arm_endless_random_pattern_all_cap_speed_2', manager = fevent_manager)
+        branch_if(Variables[0x1002], '<', Variables[0x1003], 'arm_endless_random_pattern_difficulty_2', invert=True)
+        Variables[0x900C] *= -1
         label('arm_endless_random_pattern_difficulty_2', manager = fevent_manager)
 
         # level 2 bulk: normal
