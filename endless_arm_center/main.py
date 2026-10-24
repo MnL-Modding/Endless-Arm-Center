@@ -47,6 +47,9 @@ def main():
     )
 
 def mod_files(path, new_path):
+    # this flag was just made for trailer footage. use it if you want (you have to run it from source) but it's not a vital part of this mod lol
+    no_music = False
+
     # extracting files
     rom = ndspy.rom.NintendoDSRom.fromFile(path)
 
@@ -77,11 +80,31 @@ def mod_files(path, new_path):
             coin_string[i] = fevent_manager.fevent_chunks[0x0128][2].text_tables[0x43 + i].entries[0x2D] # "You got 10 coins!"
 
     # mods go here
-    arm_center_endless(
-        fevent_manager,
-        font_file,
-        coin_string
-    )
+    arm_center_endless(fevent_manager, font_file, coin_string, no_music = no_music)
+
+    overlay_138 = overlays[138]
+    overlay_138_base = 0x02063B00
+    overlay_138_data = BytesIO(overlay_138.data)
+    overlay_138_data.seek(0x0206404C - overlay_138_base)
+    overlay_138_data.write(0xE3A0B902.to_bytes(4, 'little'))
+    overlay_138_data.seek(0x020641F4 - overlay_138_base)
+    overlay_138_data.write(0x1A017078.to_bytes(4, 'little'))
+    overlay_138.data = overlay_138_data.getvalue()
+    rom.files[overlays[138].fileID] = overlay_138.save(compress = True)
+
+    overlay_139 = overlays[139]
+    overlay_139_base = 0x020647C0
+    overlay_139_data = BytesIO(overlay_139.data)
+    overlay_139_data.seek(0x02064814 - overlay_139_base)
+    overlay_139_data.write(0xE1A00000.to_bytes(4, 'little'))
+    overlay_139.data = overlay_139_data.getvalue()
+    rom.files[overlays[139].fileID] = overlay_139.save(compress = True)
+
+    if no_music:
+        arm9_base = 0x02004000
+        arm9.seek(0x02031620 - arm9_base)
+        arm9.write(0xE3A00000.to_bytes(4, 'little'))
+        rom.arm9 = ndspy.code.MainCodeFile(arm9.getvalue(), rom.arm9RamAddress, rom.arm9CodeSettingsPointerAddress).save(compress = True)
 
     # inserting files
     FEvent_temp = BytesIO()

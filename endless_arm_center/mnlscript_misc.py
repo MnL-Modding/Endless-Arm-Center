@@ -76,7 +76,7 @@ def get_meswin_size(mes, font):
 ##################################################################################
 
 
-def arm_center_endless(fevent_manager, font_file, coins_string):
+def arm_center_endless(fevent_manager, font_file, coins_string, no_music = False):
     room_id = 0x1C
     script = fevent_manager.fevent_chunks[room_id][0]
     subroutine_num = len(script.subroutines)
@@ -566,8 +566,11 @@ def arm_center_endless(fevent_manager, font_file, coins_string):
         call('arm_end_reward')
 
         label('arm_end_reward_skip', manager = fevent_manager)
-        emit_command(0x01CD, [0x02000089, 0x0080, 0x0060, 0x0000, 0x0000, 0x0001, 0x00])
-        emit_command(0x01CE, [0x40000000 + 188, 0x01, 90, 0x0000, 0x0001, 0x00])
+        if no_music:
+            emit_command(0x01CE, [0x40000000 + 188, 0x01, 0, 0x0000, 0x0001, 0x00])
+        else:
+            emit_command(0x01CD, [0x02000089, 0x0080, 0x0060, 0x0000, 0x0000, 0x0001, 0x00])
+            emit_command(0x01CE, [0x40000000 + 188, 0x01, 90, 0x0000, 0x0001, 0x00])
         branch('arm_coin_celebrate_end', type=0x00)
 
         label('arm_coin_celebrate_pass', manager = fevent_manager)
