@@ -547,15 +547,15 @@ def arm_center_endless(fevent_manager, font_file, coins_string, no_music = False
         Variables[0x500D] = 0
 
         branch_if(Variables[0x6055], '==', 0x2, 'arm_coin_10_pass', invert=True)
-        Variables[0xC000] = Variables[0x900A] * 10
+        Variables[0xC000] = Variables[0x900A] * 5
         label('arm_coin_10_pass', manager = fevent_manager)
 
         branch_if(Variables[0x6055], '==', 0x1, 'arm_coin_5_pass', invert=True)
-        Variables[0xC000] = Variables[0x900A] * 5
+        Variables[0xC000] = Variables[0x900A] * 3
         label('arm_coin_5_pass', manager = fevent_manager)
 
         branch_if(Variables[0x6055], '==', 0x0, 'arm_coin_3_pass', invert=True)
-        Variables[0xC000] = Variables[0x900A] * 3
+        Variables[0xC000] = Variables[0x900A] * 1
         label('arm_coin_3_pass', manager = fevent_manager)
 
         Variables[0xEB14] = 0x1
@@ -574,6 +574,8 @@ def arm_center_endless(fevent_manager, font_file, coins_string, no_music = False
         branch('arm_coin_celebrate_end', type=0x00)
 
         label('arm_coin_celebrate_pass', manager = fevent_manager)
+        # remove coin reward if score is too low
+        Variables[0xC000] = 0
         emit_command(0x01CE, [0x40000000 +  62, 0x01, 0, 0x0000, 0x0001, 0x00])
         emit_command(0x01CE, [0x40000000 + 111, 0x00, 0, 0x0000, 0x0001, 0x00])
         branch('arm_coin_celebrate_end', type=0x00)
