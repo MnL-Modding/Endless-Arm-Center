@@ -1,6 +1,6 @@
 [project]
 name = "endless_arm_center"
-version = "1.0.0-dev"
+version = "1.0.0"
 description = "Patcher for an endless mode for Arm Center in Bowser's Inside Story"
 authors = [
     {name = "ThePurpleAnon"}
