@@ -23,7 +23,7 @@ and run the program through Poetry:
 poetry run python3 -m endless_arm_center
 ```
 
-4. Clone the repository, install the dependencies through `pip` with:
+3. Clone the repository, install the dependencies through `pip` with:
 ```bash
 python3 -m pip install -r requirements.txt
 ```
