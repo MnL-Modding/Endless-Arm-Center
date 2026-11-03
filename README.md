@@ -14,7 +14,7 @@ There are 3 ways to run this program, from easiest to most complicated:
 
 1. Download the binary from [Releases](https://github.com/MnL-Modding/Endless-Arm-Center/releases) and run it. (Use the `.exe` for Windows, and the `.bin` for Linux)
 
-3. Clone the repository, install the dependencies with Poetry (assuming you already have Poetry installed with `python3 -m pip install poetry`):
+2. Clone the repository, install the dependencies with Poetry (assuming you already have Poetry installed with `python3 -m pip install poetry`):
 ```bash
 poetry install
 ```
